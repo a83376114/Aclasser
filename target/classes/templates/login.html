@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AClasser &mdash; Dreams become the best graduation design</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="../static/login/images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/vendor/bootstrap/css/bootstrap.min.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/vendor/animate/animate.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/vendor/css-hamburgers/hamburgers.min.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/vendor/animsition/css/animsition.min.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/vendor/select2/select2.min.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/vendor/daterangepicker/daterangepicker.css">
+    <!--=========================================../static/login/======================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="../static/login/css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+
+<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+    <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
+        <form class="login100-form validate-form" id="login_form">
+				<span class="login100-form-title p-b-37">
+					Sign In
+				</span>
+
+            <div class="wrap-input100 validate-input m-b-20" data-validate="Enter username">
+                <input class="input100" type="text" name="username" placeholder="Username">
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 validate-input m-b-25" data-validate="Enter password">
+                <input class="input100" type="password" name="password" placeholder="Password">
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="container-login100-form-btn">
+                <!--                <button class="login100-form-btn" onclick="check_login()">-->
+                <!--                    Sign In-->
+                <!--                </button>-->
+                <input type="button" onclick="check_login()" class="login100-form-btn" value="Sign In">
+            </div>
+
+            <div class="text-center p-t-57 p-b-20">
+					<span class="txt1">
+<!--						Or login with-->
+					</span>
+            </div>
+
+            <!--            <div class="flex-c p-b-112">-->
+            <!--                <a href="#" class="login100-social-item">-->
+            <!--                    <i class="fa fa-facebook-f"></i>-->
+            <!--                </a>-->
+
+            <!--                <a href="#" class="login100-social-item">-->
+            <!--                    <img src="../static/login/images/icons/icon-google.png" alt="GOOGLE">-->
+            <!--                </a>-->
+            <!--            </div>-->
+
+            <div class="text-center">
+                <a href="/register" class="txt2 hov1">
+                    Sign Up
+                </a>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="../static/login/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--=========../static/login/======================================================================================-->
+<script src="../static/login/vendor/animsition/js/animsition.min.js"></script>
+<!--=========../static/login/======================================================================================-->
+<script src="../static/login/vendor/bootstrap/js/popper.js"></script>
+<script src="../static/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--=========../static/login/======================================================================================-->
+<script src="../static/login/vendor/select2/select2.min.js"></script>
+<!--=========../static/login/======================================================================================-->
+<script src="../static/login/vendor/daterangepicker/moment.min.js"></script>
+<script src="../static/login/vendor/daterangepicker/daterangepicker.js"></script>
+<!--=========../static/login/======================================================================================-->
+<script src="../static/login/vendor/countdowntime/countdowntime.js"></script>
+<!--=========../static/login/======================================================================================-->
+<script src="../static/login/js/main.js"></script>
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+    //设置cookie
+    function setCookie(name, value, day) {
+        var date = new Date();
+        date.setDate(date.getDate() + day);
+        document.cookie = name + '=' + value + ';expires=' + date;
+    }
+
+    function delCookie(name) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval = getCookie(name);
+        if (cval != null) {
+            document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString();
+        }
+    }
+
+    function getCookie(name) {
+        var reg = RegExp(name + '=([^;])');
+        var arr = document.cookie.match(reg);
+        if (arr) {
+            return arr[1];
+        } else {
+            return '';
+        }
+    }
+
+    function check_login() {
+        $.ajax({
+            type: "post", //方法类型
+            dataType: "json",
+            url: "/login_check",
+            data: $('#login_form').serialize(),  //------------------------------------
+            async: false,
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据，调试用
+                var JSONObject = eval(result);
+                console.log(JSONObject.username);
+                if (JSONObject.username != null) {
+                    console.log("true");
+                    setCookie("Username", JSONObject.username, 30);
+                    setCookie("Id", JSONObject.id, 30);
+                    // alert("ok")
+                    window.location.assign("/index");
+                } else {
+                    alert("Username or password is incorrect");
+                    $("input").attr("value", "");  //-------------------------------------
+                }
+            },
+            error: function (result) {
+                alert("Login failed");
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

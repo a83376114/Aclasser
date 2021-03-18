@@ -1,0 +1,47 @@
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      resolve-lazily: true
+      max-file-size: 15120KB                                          # Upload file size limit
+      max-request-size: 15120KB                                       # Upload request size limit
+  data:
+    mongodb:
+      username: admin
+      password: admin
+      database: aclasser
+      host: 127.0.0.1
+      port: 27017
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+    static-path-pattern: /**
+  thymeleaf:
+    cache: false
+
+file:
+  upload:
+    path: /root/aclasser/images/
+
+about:
+  ok: ok.jpg
+
+aclasser:
+  model:
+    path: /root/aclasser/model/mobilenet.pb                       # Path to model file
+    inputSize: 224                                                   # The input size. A square image of inputSize x inputSize is assumed.
+    imageMean: 0                                                     # The assumed mean of the image values.
+    imageStd: 255                                                    # The assumed std of the image values.
+    inputLayerName: input                                            # The label of the image input node.
+    outputLayerName: MobilenetV2/Predictions/Reshape_1               # The label of the output node.
+    labelsResource: classpath:/mobilenet_v2_labels.txt               # Path to resource with labels
+    threshold: 0.1                                                   # Object detection threshold
+  previewSize: 320                                                   # Width of the previews
+  maxExecutorsCount: 10                                              # Executors pool size for images processing
+
+server:
+  servlet:
+    session:
+      timeout: 2m                                                    # Timeout for storing uploaded image previews in sessions
+  port: 80

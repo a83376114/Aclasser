@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Image Classification</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <!--    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--    &lt;!&ndash; jQuery文件。务必在bootstrap.min.js 之前引入 &ndash;&gt;-->
+    <!--    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>-->
+    <!--    &lt;!&ndash; 最新的 Bootstrap 核心 JavaScript 文件 &ndash;&gt;-->
+    <!--    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+    <link crossorigin="anonymous" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=David+Libre|Hind:400,700" rel="stylesheet">
+    <link href="dist/css/dropify.min.css" rel="stylesheet">
+    <link href="dist/css/demo.css" rel="stylesheet">
+
+    <!--    <link rel="stylesheet" href="css/reset.css"> &lt;!&ndash; CSS reset &ndash;&gt;-->
+    <link href="css/htmleaf-demo.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet"> <!-- Resource style -->
+
+    <link href="dist/ladda-themeless.min.css" rel="stylesheet">
+
+    <!--	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>-->
+    <!--	<link rel="stylesheet" type="text/css" href="css/normalize.css" />-->
+    <!--    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+    <link href="css/default.css" rel="stylesheet" type="text/css">
+    <!--[if IE]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!--<header class="cd-auto-hide-header">-->
+<!--    <div class="logo"><a href="#0"><img src="img/cd-logo.svg" alt="Logo"></a></div>-->
+<!--    <nav class="cd-primary-nav">-->
+<!--        <a href="#cd-navigation" class="nav-trigger">-->
+<!--				<span>-->
+<!--					<em aria-hidden="true"></em>-->
+<!--					Menu-->
+<!--				</span>-->
+<!--        </a> &lt;!&ndash; .nav-trigger &ndash;&gt;-->
+
+<!--        <ul id="cd-navigation">-->
+<!--            &lt;!&ndash;            <li><a href="#0">The team</a></li>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <li><a href="#0">Our Products</a></li>&ndash;&gt;-->
+<!--            <li><a href="#0">Sign up</a></li>-->
+<!--            <li><a href="#0">Sign in</a></li>-->
+<!--            &lt;!&ndash;            <li><a href="#0">Contact Us</a></li>&ndash;&gt;-->
+<!--        </ul>-->
+<!--    </nav> &lt;!&ndash; .cd-primary-nav &ndash;&gt;-->
+<!--</header> &lt;!&ndash; .cd-auto-hide-header &ndash;&gt;-->
+
+
+<main class="cd-main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <form action="/uploadForm" enctype="multipart/form-data" method="POST">
+                    <input class="dropify" data-default-file="" data-height="300" id="input-file-now"
+                           name="file" required type="file"/>
+                    <!--                    <input type="submit" value="Upload">-->
+                    <!--                    <button type="submit" value="Submit">Upload</button>-->
+                    <!--                    <div class="container">-->
+                    <!--                        <div class="row">-->
+
+                    <div class="text-right">
+                        <button class="btn btn-info ladda-button" data-style="zoom-in"><span
+                                class="ladda-label">Upload</span></button>
+                    </div>
+
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </form>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <!--            <hr th:if="${recognitions}"/>-->
+                    <div class="col-md-6" th:if="${recognitions}">
+                        <!--                <div>Uploaded image:</div>-->
+                        <img src="/img"/>
+                    </div>
+
+                    <div class="col-md-6" th:if="${recognitions}">
+                        Found objects:
+                        <ul th:each="r : ${recognitions}">
+                            <li th:text="${r.name} + ' : ' + ${r.confidence}"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="dist/js/dropify.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Basic
+        $('.dropify').dropify();
+
+        // Translated
+        $('.dropify-fr').dropify({
+            messages: {
+                'default': '点击或拖拽文件到这里',
+                'replace': '点击或拖拽文件到这里来替换文件',
+                'remove': '移除文件',
+                'error': '对不起，你上传的文件太大了'
+            }
+        });
+    });
+
+    //     // Used events
+    //     var drEvent = $('.dropify-event').dropify();
+    //
+    //     drEvent.on('dropify.beforeClear', function (event, element) {
+    //         return confirm("Do you really want to delete \"" + element.filename + "\" ?");
+    //     });
+    //
+    //     drEvent.on('dropify.afterClear', function (event, element) {
+    //         alert('File deleted');
+    //     });
+    // });
+</script>
+
+<!--button-->
+<script src="dist/spin.min.js"></script>
+<script src="dist/ladda.min.js"></script>
+<script>
+
+    // Bind normal buttons
+    Ladda.bind('div:not(.progress-demo) button', {timeout: 2000});
+
+    // Bind progress buttons and simulate loading progress
+    Ladda.bind('.progress-demo button', {
+        callback: function (instance) {
+            var progress = 0;
+            var interval = setInterval(function () {
+                progress = Math.min(progress + Math.random() * 0.1, 1);
+                instance.setProgress(progress);
+
+                if (progress === 1) {
+                    instance.stop();
+                    clearInterval(interval);
+                }
+            }, 200);
+        }
+    });
+</script>
+
+</body>
+</html>
